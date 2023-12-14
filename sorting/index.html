@@ -15,7 +15,8 @@
         <li><a href="#bubble-sort">Bubble Sort</a></li>
         <li><a href="#selection-sort">Selection Sort</a></li>
         <li><a href="#insertion-sort">Insertion Sort</a></li>
-        <li><a href="#merge-sort">Merge Sort</a></li>
+        <li><a href="#merge-sort">Merge Sort (Array)</a></li>
+        <li><a href="#merge-sort-sll">Merge Sort (Linked List)</a></li>
         <li><a href="#quick-sort">Quick Sort</a></li>
         <li><a href="#contact">Heap Sort</a></li>
         <li><a href="#">Counting Sort</a></li>
@@ -45,7 +46,7 @@
 <div class="sort">
     <div class="sort-row" id="merge-sort">
         <div class="title">
-            <h2>Merge Sort</h2>
+            <h2>Merge Sort(Array)</h2>
         </div>
         <div class="codes">
             <pre><code class="cpp">
@@ -119,7 +120,135 @@ int main()<br />
     </div>
     <div class="break"></div>
     </div>
-    
+  <!--End of code 1 and begining of code 2  -->
+  <div class="sort">
+    <div class="sort-row" id="merge-sort-sll">
+        <div class="title">
+            <h2>Merge Sort(Linked List)</h2>
+        </div>
+        <div class="codes">
+            <pre>
+                <code class="cpp">
+#include &lt;iostream&gt;<br />
+using namespace std;<br />
+struct ListNode<br />
+{<br />
+    int val;<br />
+    ListNode *next;<br />
+<br />
+    ListNode(int x) : val(x), next(nullptr) {}<br />
+};<br />
+ListNode *mid(ListNode *head)<br />
+{<br />
+    ListNode *slow = head;<br />
+    ListNode *fast = head;<br />
+    ListNode *temp = nullptr; // to split the left before middle<br />
+    while (fast != nullptr &amp;&amp; fast-&gt;next != nullptr)<br />
+    {<br />
+        temp = slow;<br />
+        slow = slow-&gt;next;<br />
+        fast = fast-&gt;next-&gt;next;<br />
+    }<br />
+    return temp;<br />
+}<br />
+ListNode *merge(ListNode *left, ListNode *right)<br />
+{<br />
+    if (left == nullptr)<br />
+        return right;<br />
+    if (right == nullptr)<br />
+        return left;<br />
+    ListNode *ptr = nullptr;<br />
+    if (left-&gt;val &lt;= right-&gt;val)<br />
+    {<br />
+        ptr = left;<br />
+        left = left-&gt;next;<br />
+    }<br />
+    else<br />
+    {<br />
+        ptr = right;<br />
+        right = right-&gt;next;<br />
+    }<br />
+    ListNode *head = ptr;<br />
+    while (left &amp;&amp; right)<br />
+    {<br />
+        if (left-&gt;val &lt;= right-&gt;val)<br />
+        {<br />
+            ptr-&gt;next = left;<br />
+            left = left-&gt;next;<br />
+        }<br />
+        else<br />
+        {<br />
+            ptr-&gt;next = right;<br />
+            right = right-&gt;next;<br />
+        }<br />
+        ptr = ptr-&gt;next;<br />
+    }<br />
+    while (left)<br />
+    {<br />
+        ptr-&gt;next = left;<br />
+        left = left-&gt;next;<br />
+        ptr = ptr-&gt;next;<br />
+    }<br />
+    while (right)<br />
+    {<br />
+        ptr-&gt;next = right;<br />
+        right = right-&gt;next;<br />
+        ptr = ptr-&gt;next;<br />
+    }<br />
+    ptr-&gt;next = nullptr;<br />
+    return head;<br />
+}<br />
+<br />
+ListNode *mergesort(ListNode *head)<br />
+{<br />
+    if (head == nullptr || head-&gt;next == nullptr)<br />
+        return head;<br />
+    ListNode *newhead;<br />
+    ListNode *m = mid(head);<br />
+    newhead = m-&gt;next;<br />
+    m-&gt;next = nullptr;<br />
+    ListNode *left = mergesort(head);<br />
+    ListNode *right = mergesort(newhead);<br />
+    return merge(left, right);<br />
+}<br />
+void printList(ListNode *head)<br />
+{<br />
+    while (head != nullptr)<br />
+    {<br />
+        cout &lt;&lt; head-&gt;val &lt;&lt; &quot; &quot;;<br />
+        head = head-&gt;next;<br />
+    }<br />
+    cout &lt;&lt; endl;<br />
+}<br />
+<br />
+int main()<br />
+{<br />
+    ListNode *head = new ListNode(5);<br />
+    head-&gt;next = new ListNode(2);<br />
+    head-&gt;next-&gt;next = new ListNode(7);<br />
+    head-&gt;next-&gt;next-&gt;next = new ListNode(1);<br />
+    head-&gt;next-&gt;next-&gt;next-&gt;next = new ListNode(4);<br />
+    head-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next = new ListNode(9);<br />
+    head-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next = new ListNode(8);<br />
+    head-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next-&gt;next = new ListNode(3);<br />
+<br />
+    cout &lt;&lt; &quot;Singly Linked List: &quot;;<br />
+    printList(head);<br />
+    ListNode *start = mergesort(head);<br />
+    cout &lt;&lt; &quot;After Sorting: n&quot;;<br />
+    printList(start);<br />
+    return 0;<br />
+}<br />
+<br />
+Output : <br />
+Singly Linked List : 5 2 7 1 4 9 8 3 <br />
+After Sorting : 1 2 3 4 5 7 8 9
+                </code>
+            </pre>
+        </div>
+    </div>
+    <div class="break"></div>
+</div>
     <div class="sort">
     <div class="sort-row" id="bubble-sort">
         <div class="title">
@@ -196,10 +325,7 @@ int main()<br />
         </div>
     </div>
     <div class="break"></div>
-</div>
-
-    
-    
+</div>   
 </div>
 </body>
 </html>
